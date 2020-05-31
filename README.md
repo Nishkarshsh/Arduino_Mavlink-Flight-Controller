@@ -1,4 +1,4 @@
-# Mavlink
+# Arduino_Mavlink Flight Controller
 
 The main.cpp allows an arduino to exchange telemetry data with pixhawk using standard mavlink messages. It allows the user to control the quadrotor movement through desired attitude inputs and displays quadcopters realtime data on Arduino Serial Console
 
