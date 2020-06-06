@@ -1,49 +1,51 @@
-#include <WiFi.h>
+
 #include <string.h>
-#include <Arduino.h>
-#include <mavlink.h>
+#include<string>
+//include "Arduino.h"
+//#include "c_library_v1"
+#include "mavlink.h"
 
 //###########################
 //#Configuration for the app#
 //###########################
 
 //Reflects connection with the ESP32
-static const String PINGING = "PINGING";
+static const std::string PINGING = "PINGING";
 //Reflects connection with the drone
-static const String HEARTBEATING = "HEARTBEATING";
+static const std::string HEARTBEATING = "HEARTBEATING";
 //Set of the drone's state commands
-static const String ARMED = "ARMED";
-static const String DISARMED = "DISARMED";
+static const std::string ARMED = "ARMED";
+static const std::string DISARMED = "DISARMED";
 //Set of the flight mode commands
-static const String SET_FLIGHT_MODE_STABILIZE = "SET_FLIGHT_MODE_STABILIZE";
-static const String SET_FLIGHT_MODE_ALTHOLD = "SET_FLIGHT_MODE_ALTHOLD";
-static const String SET_FLIGHT_MODE_LOITER = "SET_FLIGHT_MODE_LOITER";
-static const String SET_FLIGHT_MODE_AUTO = "SET_FLIGHT_MODE_AUTO";
-static const String SET_FLIGHT_MODE_CIRCLE = "SET_FLIGHT_MODE_CIRCLE";
+static const std::string SET_FLIGHT_MODE_STABILIZE = "SET_FLIGHT_MODE_STABILIZE";
+static const std::string SET_FLIGHT_MODE_ALTHOLD = "SET_FLIGHT_MODE_ALTHOLD";
+static const std::string SET_FLIGHT_MODE_LOITER = "SET_FLIGHT_MODE_LOITER";
+static const std::string SET_FLIGHT_MODE_AUTO = "SET_FLIGHT_MODE_AUTO";
+static const std::string SET_FLIGHT_MODE_CIRCLE = "SET_FLIGHT_MODE_CIRCLE";
 
 //Available flight modes
-static const String STABILIZE = "STABILIZE";
-static const String ALTHOLD = "ALTHOLD";
-static const String LOITER = "LOITER";
-static const String AUTO = "AUTO";
-static const String CIRCLE = "CIRCLE";
+static const std::string STABILIZE = "STABILIZE";
+static const std::string ALTHOLD = "ALTHOLD";
+static const std::string LOITER = "LOITER";
+static const std::string AUTO = "AUTO";
+static const std::string CIRCLE = "CIRCLE";
 
 //Set of the rotors value commands
-static const String SET_ROLL = "SET_ROLL_";//+ int
-static const String SET_PITCH = "SET_PITCH_";//+ int
-static const String SET_THROTTLE = "SET_THROTTLE_";//+ int
-static const String SET_YAW = "SET_YAW_";//+ int
+static const std::string SET_ROLL = "SET_ROLL_";//+ int
+static const std::string SET_PITCH = "SET_PITCH_";//+ int
+static const std::string SET_THROTTLE = "SET_THROTTLE_";//+ int
+static const std::string SET_YAW = "SET_YAW_";//+ int
 
 //Sets elementary actions
-static const String SET_ARM = "SET_ARM";
-static const String SET_DISARM = "SET_DISARM";
+static const std::string SET_ARM = "SET_ARM";
+static const std::string SET_DISARM = "SET_DISARM";
 
 //####################################
 //#Initial Configuration of the drone#
 //####################################
 
-boolean current_arm = false;
-String current_mode = STABILIZE;
+bool current_arm = false;
+std::string current_mode = STABILIZE;
 int current_roll = 0;
 int current_pitch = 0;
 int current_throttle = 0; //Min value is 1150 to run motors
@@ -160,7 +162,7 @@ void loop() {
 
 
 
-void interpreteMsg(String msg){
+void interpreteMsg(std::string msg){
   //Clean the message before comparing
   msg.trim();
 
@@ -449,7 +451,7 @@ void Mav_Request_Data()
 }
 
 
-void mav_arm_pack(boolean state) {
+void mav_arm_pack(bool state) {
   mavlink_message_t msg;
   uint8_t buf[MAVLINK_MAX_PACKET_LEN];
 
@@ -467,7 +469,7 @@ void mav_arm_pack(boolean state) {
   SerialMAV.write(buf, len);
 }
 
-void mav_set_mode(String value) {
+void mav_set_mode(std::string value) {
   mavlink_message_t msg;
   uint8_t buf[MAVLINK_MAX_PACKET_LEN];
 
@@ -513,7 +515,7 @@ void mav_override_rc(int roll, int pitch, int throttle, int yaw) {
  * Function that compares two strings 
  * and returns number of matches. 
  */
-int stringContains(String s, String search) {
+int stringContains(std::string s, std::string search) {
     int max = s.length() - search.length();
     int lgsearch = search.length();
     for (int i = 0; i <= max; i++) {
@@ -522,7 +524,7 @@ int stringContains(String s, String search) {
  return -1;
 }
 
-int readValueFromMsg(String message, String key){
+int readValueFromMsg(std::string message, std::string key){
   message.replace(key, "");
   int numbVal = message.toInt();
   return numbVal;
